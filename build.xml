@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="jasmp" default="jar" basedir=".">
+	<property name="build.src" value="src"/>
+	<property name="build.dest" value="bin"/>
+	<property name="javadoc.dest" value="doc"/>
+	<property name="project" value="jasmp"/>
+	<property name="version" value="0.5.2"/>
+	<property name="build.jar" value="${project}-${version}.jar"/>
+	<target name="jar" depends="compile">
+		<jar
+           jarfile="${build.jar}"
+           basedir="${build.dest}">
+		</jar>
+	</target>
+	<target name="compile">
+		<mkdir dir="${build.dest}" />
+		<javac srcdir="${build.src}"
+            debug="${debug}"
+            destdir="${build.dest}"
+     />
+	</target>
+	<target name="javadoc">
+		<javadoc
+       packagenames="*"
+       sourcepath="${build.src}"
+       destdir="${javadoc.dest}">
+		</javadoc>
+	</target>
+	<target name="clean">
+		<delete dir="${build.dest}" />
+		<delete file="${build.jar}" />
+	</target>
+
+</project>
