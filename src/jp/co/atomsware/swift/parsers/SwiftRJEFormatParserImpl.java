@@ -53,9 +53,16 @@ public class SwiftRJEFormatParserImpl extends SwiftParser {
 			}
 			switch (ch) {
 			case '{':
-				level++;
-				judge(reader, (char) ch);
-				lf = false;
+				// TAG内の{はデータ扱い
+				if (currentTag.get(level) != null) {
+					tagdata.append((char) ch);
+					blockdata.append((char) ch);
+					handler.character(line, pos, (char) ch);
+				} else {
+					level++;
+					judge(reader, (char) ch);
+					lf = false;
+				}
 				break;
 			case '}':
 				// Resned
