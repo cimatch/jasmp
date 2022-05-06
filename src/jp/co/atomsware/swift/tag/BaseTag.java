@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Enumeration;
 
 import jp.co.atomsware.swift.Element;
+import jp.co.atomsware.swift.block.BaseBlock;
 
 /**
  * TAGの基底クラス
@@ -16,6 +17,7 @@ public abstract class BaseTag extends Element implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	/** TAGの内部変数 */
+	protected BaseBlock parent;
 	protected String tag;
 	protected String value;
 
@@ -55,6 +57,14 @@ public abstract class BaseTag extends Element implements Serializable {
 	 * デフォルトコンストラクタ
 	 */
 	public BaseTag() {
+	}
+
+	public BaseBlock getParent() {
+		return parent;
+	}
+
+	public void setParent(BaseBlock parent) {
+		this.parent = parent;
 	}
 
 	protected BaseTag(String tag, String value) {

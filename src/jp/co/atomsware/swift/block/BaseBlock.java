@@ -60,6 +60,9 @@ public abstract class BaseBlock extends Element implements Serializable, Map<Str
 	/** 保有TAG */
 	protected List<BaseTag> tags = new ArrayList<BaseTag>();
 
+	/** 親メッセージ */
+	protected SwiftMessage parent;
+
 	/**
 	 * 各BLOCK用のBLOCKオブジェクトのインスタンス生成
 	 *
@@ -77,6 +80,7 @@ public abstract class BaseBlock extends Element implements Serializable, Map<Str
 	public static BaseBlock newInstance(SwiftMessage swiftMessage,
 			String blockId) throws ClassNotFoundException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		BaseBlock block;
 		if (BLOCK_1.equals(blockId)) {
 			return SwiftBlockFactory.newInstance("BasicHeaderBlock");
 		}
@@ -98,7 +102,7 @@ public abstract class BaseBlock extends Element implements Serializable, Map<Str
 		if (BLOCK_5.equals(blockId)) {
 			return SwiftBlockFactory.newInstance("TrailerBlock");
 		}
-		BaseBlock block = SwiftBlockFactory.newInstance("TrailerBlock");
+		block = SwiftBlockFactory.newInstance("TrailerBlock");
 		block.setBlockID(blockId);
 		return block;
 	}
@@ -165,6 +169,7 @@ public abstract class BaseBlock extends Element implements Serializable, Map<Str
 	 * @param tag
 	 */
 	public void addTag(BaseTag tag) {
+		tag.setParent(this);
 		tags.add(tag);
 	}
 
@@ -183,6 +188,7 @@ public abstract class BaseBlock extends Element implements Serializable, Map<Str
 		}
 		try {
 			BaseTag tag = BaseTag.newInstance(tagName, "");
+			tag.setParent(this);
 			tags.add(tag);
 			return tag;
 		} catch (Exception e) {
@@ -231,6 +237,9 @@ public abstract class BaseBlock extends Element implements Serializable, Map<Str
 	 * @param tags
 	 */
 	public void setTags(List<BaseTag> tags) {
+		for (BaseTag tag : tags) {
+			tag.setParent(this);
+		}
 		this.tags = tags;
 	}
 
@@ -248,6 +257,22 @@ public abstract class BaseBlock extends Element implements Serializable, Map<Str
 		}
 		text.append(BLOCK_CLOSE);
 		return text.toString();
+	}
+
+	/**
+	 * 親メッセージ取得
+	 * @return SwiftMessage
+	 */
+	public SwiftMessage getParent() {
+		return parent;
+	}
+
+	/**
+	 * 親メッセージ設定
+	 * @param parent SwiftMessage
+	 */
+	public void setParent(SwiftMessage parent) {
+		this.parent = parent;
 	}
 
 	/**

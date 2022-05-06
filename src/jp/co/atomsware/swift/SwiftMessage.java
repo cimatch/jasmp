@@ -39,6 +39,7 @@ public class SwiftMessage implements List<BaseBlock> {
 	public BaseBlock getFirstBlock(String blockNo) {
 		for (BaseBlock block : this.blocks) {
 			if (block.getBlockID() != null && block.getBlockID().equals(blockNo)) {
+				block.setParent(this);
 				return block;
 			}
 		}
@@ -101,6 +102,7 @@ public class SwiftMessage implements List<BaseBlock> {
 	 * @see java.util.List
 	 */
 	public boolean add(BaseBlock o) {
+		o.setParent(this);
 		return blocks.add(o);
 	}
 
@@ -108,6 +110,7 @@ public class SwiftMessage implements List<BaseBlock> {
 	 * @see java.util.List
 	 */
 	public void add(int index, BaseBlock element) {
+		element.setParent(this);
 		blocks.add(index, element);
 	}
 
@@ -115,6 +118,9 @@ public class SwiftMessage implements List<BaseBlock> {
 	 * @see java.util.List
 	 */
 	public boolean addAll(Collection<? extends BaseBlock> c) {
+		for (BaseBlock o : c) {
+			o.setParent(this);
+		}
 		return blocks.addAll(c);
 	}
 
@@ -122,6 +128,9 @@ public class SwiftMessage implements List<BaseBlock> {
 	 * @see java.util.List
 	 */
 	public boolean addAll(int index, Collection<? extends BaseBlock> c) {
+		for (BaseBlock o : c) {
+			o.setParent(this);
+		}
 		return blocks.addAll(index, c);
 	}
 
@@ -221,6 +230,7 @@ public class SwiftMessage implements List<BaseBlock> {
 	 * @see java.util.List
 	 */
 	public BaseBlock set(int index, BaseBlock element) {
+		element.setParent(this);
 		return blocks.set(index, element);
 	}
 
@@ -244,6 +254,7 @@ public class SwiftMessage implements List<BaseBlock> {
 	 * @param block1
 	 */
 	public void setBlock1(BasicHeaderBlock block1) {
+		block1.setParent(this);
 		blocks.add(block1);
 	}
 
@@ -257,6 +268,7 @@ public class SwiftMessage implements List<BaseBlock> {
 		if (block1 == null) {
 			try {
 				block1 = (BasicHeaderBlock) BaseBlock.newInstance(this, BaseBlock.BLOCK_1);
+				block1.setParent(this);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
@@ -268,9 +280,10 @@ public class SwiftMessage implements List<BaseBlock> {
 	/**
 	 * ApplicationHeaderBlockをセットする
 	 *
-	 * @param block1
+	 * @param block2
 	 */
 	public void setBlock2(ApplicationHeaderBlock block2) {
+		block2.setParent(this);
 		blocks.add(block2);
 	}
 
@@ -284,6 +297,7 @@ public class SwiftMessage implements List<BaseBlock> {
 		if (block2 == null) {
 			try {
 				block2 = (ApplicationHeaderBlock)SwiftBlockFactory.newInstance("ApplicationHeaderBlockInput");
+				block2.setParent(this);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
@@ -295,9 +309,10 @@ public class SwiftMessage implements List<BaseBlock> {
 	/**
 	 * UserHeaderBlockをセットする
 	 *
-	 * @param block1
+	 * @param block3
 	 */
 	public void setBlock3(UserHeaderBlock block3) {
+		block3.setParent(this);
 		blocks.add(block3);
 	}
 
@@ -311,6 +326,7 @@ public class SwiftMessage implements List<BaseBlock> {
 		if (block3 == null) {
 			try {
 				block3 = (UserHeaderBlock) BaseBlock.newInstance(this, BaseBlock.BLOCK_3);
+				block3.setParent(this);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
@@ -322,9 +338,10 @@ public class SwiftMessage implements List<BaseBlock> {
 	/**
 	 * TextBlockをセットする
 	 *
-	 * @param block1
+	 * @param block4
 	 */
 	public void setBlock4(TextBlock block4) {
+		block4.setParent(this);
 		blocks.add(block4);
 	}
 
@@ -344,6 +361,7 @@ public class SwiftMessage implements List<BaseBlock> {
 		if (block4 == null) {
 			try {
 				block4 = (TextBlock) BaseBlock.newInstance(this, BaseBlock.BLOCK_4);
+				block4.setParent(this);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
