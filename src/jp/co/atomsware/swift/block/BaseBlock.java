@@ -310,7 +310,7 @@ public abstract class BaseBlock extends Element implements Serializable, Map<Str
 	@Override
 	public Object get(Object tagName) {
 		try {
-			return (BaseTag)getTag((String)tagName);
+			return (BaseTag) getTag((String) tagName);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -343,13 +343,24 @@ public abstract class BaseBlock extends Element implements Serializable, Map<Str
 	}
 
 	@Override
-	public String remove(Object tagName) {
-		for (BaseTag tag : this.tags) {
-			if (tag.getTag().equals(tagName)) {
-				tags.remove(tag);
+	public Object remove(Object tagName) {
+		BaseTag target = null;
+		if (tagName instanceof BaseTag) {
+			target = (BaseTag) tagName;
+			return tags.remove(target);
+		} else if (tagName instanceof String) {
+			for (BaseTag tag : this.tags) {
+				if (tag.getTag().equals(tagName)) {
+					target = tag;
+					break;
+				}
+			}
+			if (target != null) {
+				tags.remove(target);
+				return tagName;
 			}
 		}
-		return (String)tagName;
+		return null;
 	}
 
 	@Override
