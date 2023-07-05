@@ -203,7 +203,9 @@ public abstract class BaseBlock extends Element implements Serializable, Map<Str
 	 * @param list
 	 */
 	public void addTags(List<BaseTag> list) {
-		list.addAll(list);
+		for(BaseTag tag : list) {
+			addTag(tag);
+		}
 	}
 
 	/**
